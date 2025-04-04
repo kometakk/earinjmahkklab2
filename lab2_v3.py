@@ -110,7 +110,7 @@ class Nim(object):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
                     tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.simpleminmax(tempBoard, depth-1, False)
+                    new_value, _ = self.minimax(tempBoard, depth-1, False, alpha, beta)
                     if(new_value > alpha):
                         alpha = new_value
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
@@ -122,7 +122,7 @@ class Nim(object):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
                     tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.simpleminmax(tempBoard, depth-1, True)
+                    new_value, _ = self.minimax(tempBoard, depth-1, True, alpha, beta)
                     if(new_value < beta):
                         beta = new_value
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
