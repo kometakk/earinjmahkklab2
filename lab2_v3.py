@@ -218,6 +218,9 @@ if __name__ == "__main__":
                 except Exception as e:
                     print("Invalid input for the move, please try again")
                     continue
+                if(len(a) != 2):
+                    print("Wrong number of input parameters! Provide exactly 2 integers")
+                    continue
                 pile_nr, sticks_amount = a[0]-1, a[1]
             else:
                 ## Agent's turn
