@@ -47,12 +47,14 @@ class Nim(object):
             print("Agent's move: pile chosen = " + str(pile_nr + 1) + ", sticks taken =" + str(sticks_amount))
         self.board[pile_nr] -= sticks_amount
         if(sum(self.board) == 0):
+            print(self.board)
             if(isPlayer):
                 print("You lose")
             else:
                 print("You win")
             return 1
         elif(sum(self.board) == 1):
+            print(self.board)
             if(isPlayer):
                 print("You win")
             else:
@@ -119,9 +121,9 @@ class Nim(object):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
                     tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.minimax(tempBoard, depth-1, False, alpha, beta)
-                    if(new_value > alpha):
-                        alpha = new_value
+                    value = max(value, self.minimax(tempBoard, depth-1, False, alpha, beta)[0])
+                    if(value > alpha):
+                        alpha = value
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
                     if(beta <= alpha):
                         break
@@ -130,9 +132,9 @@ class Nim(object):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
                     tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.minimax(tempBoard, depth-1, True, alpha, beta)
-                    if(new_value < beta):
-                        beta = new_value
+                    value = min(value, self.minimax(tempBoard, depth-1, True, alpha, beta)[0])
+                    if(value < beta):
+                        beta = value
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
                     if(beta <= alpha):
                         break
@@ -212,3 +214,4 @@ if __name__ == "__main__":
         # After move is made for current player, switch
         # the current-turn player
         isPlayersTurn = not isPlayersTurn
+    
