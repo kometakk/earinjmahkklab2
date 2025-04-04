@@ -44,7 +44,7 @@ class Nim(object):
             return -1
         
         if not isPlayer:
-            print("Agent's move: pile chosen = " + str(pile_nr) + ", sticks taken =" + str(sticks_amount))
+            print("Agent's move: pile chosen = " + str(pile_nr + 1) + ", sticks taken =" + str(sticks_amount))
         self.board[pile_nr] -= sticks_amount
         if(sum(self.board) == 0):
             if(isPlayer):
