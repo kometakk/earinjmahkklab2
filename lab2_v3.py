@@ -7,7 +7,7 @@ class Nim(object):
     ## Nim constants
     # Will be used to set an arbitrary-high value
     # of alphas and betas
-    NIM_INF = 123456
+    NIM_INF = float("inf")
     # Placeholder, when move is not yet known
     NIM_EMPTY_MOVE = (-1, -1)
     # Numeric value of winning terminal node
@@ -29,17 +29,17 @@ class Nim(object):
     def makeAMoveWithEndHandling(self, pile_nr, sticks_amount, isPlayer) -> int:
         if(pile_nr < 0 or pile_nr >= len(game.board)):
             if(not isPlayer):
-                raise "ERROR! Problem with agent!"
+                raise Exception(f"ERROR! Problem with agent! move {pile_nr}, {sticks_amount} is invalid!")
             print("Pile with number " + str(pile_nr) + " doesn't exist, pick another")
             return -1
         if(sticks_amount < 1):
             if(not isPlayer):
-                raise "ERROR! Problem with agent!"
+                raise Exception(f"ERROR! Problem with agent! move {pile_nr}, {sticks_amount} is invalid!")
             print("You need to take at least one stick (you wanted to take " + str(sticks_amount) + ")!")
             return -1
         if(game.board[pile_nr] < sticks_amount):
             if(not isPlayer):
-                raise "ERROR! Problem with agent!"
+                raise Exception(f"ERROR! Problem with agent! move {pile_nr}, {sticks_amount} is invalid!")
             print("You can take at most " + str(game.board[pile_nr]) + " sticks from pile " + str(pile_nr) + ", while you wanted to take " + str(sticks_amount) + "!")
             return -1
         
