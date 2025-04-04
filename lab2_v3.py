@@ -52,6 +52,12 @@ class Nim(object):
             else:
                 print("You win")
             return 1
+        elif(sum(self.board) == 1):
+            if(isPlayer):
+                print("You win")
+            else:
+                print("You lose")
+            return 1
 
         return 0
     
