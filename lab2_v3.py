@@ -102,10 +102,19 @@ class Nim(object):
             if(maximizing_player):
                 return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
             else:
-                return -1, self.NIM_EMPTY_MOVE
+                return self.NIM_LOSS_VALUE, self.NIM_EMPTY_MOVE
+        elif(sum(board) == 1):
+            if(maximizing_player):
+                return self.NIM_LOSS_VALUE, self.NIM_EMPTY_MOVE
+            else:
+                return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
+
+        best_move = self.NIM_EMPTY_MOVE
+        value = Nim.NIM_INF
+        if(maximizing_player):
+            value = -Nim.NIM_INF
 
         if(maximizing_player):
-            value = -abs(Nim.NIM_INF)
             for iter_pile_index in range(0, len(board)):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
@@ -117,7 +126,6 @@ class Nim(object):
                     if(beta <= alpha):
                         break
         else:
-            value = abs(Nim.NIM_INF)
             for iter_pile_index in range(0, len(board)):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
@@ -130,43 +138,6 @@ class Nim(object):
                         break
         return value, best_move
     
-    # Created it just to check MinMax without
-    # alpha beta pruning for my curiosity
-    def simpleminmax(
-            self, board : list[int], depth : int,
-            maximizing_player : bool) -> tuple[int, tuple[int, int]]:
-        if(depth == 0 or sum(board) == 0):
-            if(maximizing_player):
-                return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
-            else:
-                return -1, self.NIM_EMPTY_MOVE
-
-        best_move = self.NIM_EMPTY_MOVE
-        best_value = Nim.NIM_INF
-        if(maximizing_player):
-            best_value = -Nim.NIM_INF
-
-        if(maximizing_player):
-            for iter_pile_index in range(0, len(board)):
-                for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
-                    tempBoard = copy.deepcopy(board)
-                    tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.simpleminmax(tempBoard, depth-1, False)
-                    if(new_value > best_value):
-                        best_value = new_value
-                        best_move = (iter_pile_index, iter_sticks_taken_from_pile)
-        else:
-            best_value = abs(Nim.NIM_INF)
-            for iter_pile_index in range(0, len(board)):
-                for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
-                    tempBoard = copy.deepcopy(board)
-                    tempBoard[iter_pile_index] = tempBoard[iter_pile_index] - iter_sticks_taken_from_pile
-                    new_value, _ = self.simpleminmax(tempBoard, depth-1, True)
-                    if(new_value < best_value):
-                        best_value = new_value
-                        best_move = (iter_pile_index, iter_sticks_taken_from_pile)
-
-        return best_value, best_move
 
 if __name__ == "__main__":
 
