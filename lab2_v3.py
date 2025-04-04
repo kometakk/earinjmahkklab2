@@ -141,8 +141,12 @@ class Nim(object):
             else:
                 return -1, self.NIM_EMPTY_MOVE
 
+        best_move = self.NIM_EMPTY_MOVE
+        best_value = Nim.NIM_INF
         if(maximizing_player):
-            best_value = -abs(Nim.NIM_INF)
+            best_value = -Nim.NIM_INF
+
+        if(maximizing_player):
             for iter_pile_index in range(0, len(board)):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
