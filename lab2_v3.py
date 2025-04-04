@@ -207,7 +207,11 @@ if __name__ == "__main__":
 
             if(isPlayersTurn):
                 user_input = input("Your move (<pile_nr> <sticks_amount>): ")
-                a = [int(x) for x in user_input.split()]
+                try:
+                    a = [int(x) for x in user_input.split()]
+                except Exception as e:
+                    print("Invalid input for the move, please try again")
+                    continue
                 pile_nr, sticks_amount = a[0]-1, a[1]
             else:
                 ## Agent's turn
