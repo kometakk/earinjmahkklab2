@@ -7,7 +7,7 @@ class Nim(object):
 
     """ 
     Nim game constants, 
-    used to set the initial values of variables or the values of the leaves 
+    used to set the initial values of variables or the values of the leaves.
     """
     NIM_INF = float("inf")
     """ Used to set the initial infinity values of the alpha and beta """
@@ -81,6 +81,25 @@ class Nim(object):
         _, next_move = self.minimax(self.board, sum(self.board), True, -self.NIM_INF, self.NIM_INF)
         return next_move
 
+    def eval_func(self, sum_board: int, maximizing_player: bool) -> int:
+        """
+        Evaluation function for determining the value of a leaf node.
+
+        :param sum_board: The total number of sticks on the board, either 0 or 1.
+        :param maximizing_player: True if is the maximizing player, False otherwise.
+        :return: The value of a leaf node. Either 1 or -1.
+        """
+        if sum_board == 0:
+            if maximizing_player:
+                return self.NIM_WIN_VALUE
+            else:
+                return self.NIM_LOSS_VALUE
+        elif sum_board == 1:
+            if maximizing_player:
+                return self.NIM_LOSS_VALUE
+            else:
+                return self.NIM_WIN_VALUE
+
     def minimax(self, board: list[int], depth: int, maximizing_player: bool,
                 alpha: int | float, beta: int | float) -> tuple[int | float, tuple[int, int]]:
         """
@@ -97,16 +116,8 @@ class Nim(object):
         - Everything needed to identify next move
 
         """
-        if depth == 0 or sum(board) == 0:
-            if maximizing_player:
-                return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
-            else:
-                return self.NIM_LOSS_VALUE, self.NIM_EMPTY_MOVE
-        elif sum(board) == 1:
-            if maximizing_player:
-                return self.NIM_LOSS_VALUE, self.NIM_EMPTY_MOVE
-            else:
-                return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
+        if depth == 0 or sum(board) <= 1:
+            return self.eval_func(sum(board), maximizing_player), self.NIM_EMPTY_MOVE
 
         best_move = self.NIM_EMPTY_MOVE
 
