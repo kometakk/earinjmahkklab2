@@ -4,18 +4,28 @@ class Nim(object):
     def __init__(self, board):
         self.board = board
 
-    # Nim constants
+    ## Nim constants
+    # Will be used to set an arbitrary-high value
+    # of alphas and betas
     NIM_INF = 123456
+    # Placeholder, when move is not yet known
     NIM_EMPTY_MOVE = (-1, -1)
+    # Numeric value of winning terminal node
     NIM_WIN_VALUE = 1
+    # Numeric value of losing teminal node
     NIM_LOSS_VALUE = -1
 
     # Implement any additional functions needed here
 
+    # When a player or agent provies move values (pile_nr
+    # and amount of sticks), this function handles taking
+    # sticks form a pile, checking if move is possible + 
+    # provided move values are valid and if the move
+    # resulted in game over (all piles are
+    # empty) by printing a message and returning 1
     # -1 -> Error
     # 0 -> Regular move done
     # 1 -> No sticks, so current player loses
-    # 2 -> Last stick left, so current player wins
     def makeAMoveWithEndHandling(self, pile_nr, sticks_amount, isPlayer) -> int:
         if(pile_nr < 0 or pile_nr >= len(game.board)):
             if(not isPlayer):
@@ -42,14 +52,11 @@ class Nim(object):
             else:
                 print("You win")
             return 1
-        #elif(sum(self.board) == 1):
-        #    if(isPlayer):
-        #        print("You win")
-        #    else:
-        #        print("You lose")
-        #    return 1
+
         return 0
     
+    # Returns the move of the agent based on the
+    # current board. Basically calls the minimax() function
     def agentDecision(self):
         """
         TODO
@@ -116,7 +123,9 @@ class Nim(object):
                     if(beta <= alpha):
                         break
         return value, best_move
-        
+    
+    # Created it just to check MinMax without
+    # alpha beta pruning for my curiosity
     def simpleminmax(
             self, board : list[int], depth : int,
             maximizing_player : bool) -> tuple[int, tuple[int, int]]:
@@ -149,7 +158,6 @@ class Nim(object):
 
         return best_value, best_move
 
-
 if __name__ == "__main__":
 
     """
@@ -174,6 +182,7 @@ if __name__ == "__main__":
     print("The person who removes the last stick loses!")
     print("Example: to remove from 2nd pile 3 sticks , enter 2 3")
 
+    # Initial variables for handling game loop
     hasGameEnded = False
     isPlayersTurn = True
     while hasGameEnded is False:
@@ -189,6 +198,10 @@ if __name__ == "__main__":
         5. Apply the move to the board
         6. [3]
         """
+        # Loop for providing the next move by the player
+        # or an agent. It is done like that, because checking
+        # the input parameters is done in the function, that
+        # also handles the move and game-over-checking.
         while(True):
             pile_nr, sticks_amount = None, None
 
@@ -206,6 +219,8 @@ if __name__ == "__main__":
                 continue
             elif(move_result == 1):
                 hasGameEnded = True
+            # if(move_result == 0):
             break
-
+        # After move is made for current player, switch
+        # the current-turn player
         isPlayersTurn = not isPlayersTurn
