@@ -110,11 +110,9 @@ class Nim(object):
                 return self.NIM_WIN_VALUE, self.NIM_EMPTY_MOVE
 
         best_move = self.NIM_EMPTY_MOVE
-        value = Nim.NIM_INF
-        if(maximizing_player):
-            value = -Nim.NIM_INF
 
         if(maximizing_player):
+            value = -Nim.NIM_INF
             for iter_pile_index in range(0, len(board)):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
@@ -126,6 +124,7 @@ class Nim(object):
                     if(beta <= alpha):
                         break
         else:
+            value = Nim.NIM_INF
             for iter_pile_index in range(0, len(board)):
                 for iter_sticks_taken_from_pile in range(1, board[iter_pile_index]+1):
                     tempBoard = copy.deepcopy(board)
