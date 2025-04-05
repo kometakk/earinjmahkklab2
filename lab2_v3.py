@@ -133,6 +133,9 @@ class Nim(object):
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
                     if beta <= alpha:
                         break
+
+                if beta <= alpha:
+                    break
         else:
             value = Nim.NIM_INF
             for iter_pile_index in range(0, len(board)):
@@ -145,6 +148,9 @@ class Nim(object):
                         best_move = (iter_pile_index, iter_sticks_taken_from_pile)
                     if beta <= alpha:
                         break
+
+                if beta <= alpha:
+                    break
         return value, best_move
 
 
